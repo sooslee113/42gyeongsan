@@ -1,0 +1,16 @@
+total 1344$
+-rw-r--r-- 1 sooslee 2023_42gyeongsan     885 Jun 19 20:15 Makefile$
+-rw-r--r-- 1 sooslee 2023_42gyeongsan       0 Jun 21 10:37 b$
+-rw-r--r-- 1 sooslee 2023_42gyeongsan     327 Jun 19 20:12 execveprac.c$
+-rwxr-xr-x 1 sooslee 2023_42gyeongsan    6247 Jun 21 14:46 exexe5.c$
+-rw-r--r-- 1 sooslee 2023_42gyeongsan   21424 Jun 21 14:46 exexe5.o$
+-rw-r--r-- 1 sooslee 2023_42gyeongsan       0 Jun 20 23:09 file1$
+-rw-r--r-- 1 sooslee 2023_42gyeongsan       0 Jun 20 23:12 file2$
+drwxr-xr-x 3 sooslee 2023_42gyeongsan    4096 Jun 21 14:46 ft_printf$
+-rw-rw-r-- 1 sooslee 2023_42gyeongsan       0 Jun 20 20:27 infile$
+drwxr-xr-x 2 sooslee 2023_42gyeongsan    4096 Jun 21 14:46 libft$
+-rw-r--r-- 1 sooslee 2023_42gyeongsan       0 Jun 21 14:49 outfil$
+-rw-r--r-- 1 sooslee 2023_42gyeongsan     959 Jun 21 14:49 outfile$
+-rwxr-xr-x 1 sooslee 2023_42gyeongsan 1311088 Jun 21 14:46 pipex$
+-rw-r--r-- 1 sooslee 2023_42gyeongsan    1743 Jun 20 13:47 pipex.h$
+-rw-r--r-- 1 sooslee 2023_42gyeongsan    2480 Jun 18 23:41 pipex.o$

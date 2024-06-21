@@ -6,7 +6,7 @@ CFLAGS = -g -fsanitize=address -Wall -Wextra -Werror
 
 SUBDIR = libft
 
-SRCS_MUST = exexe5.c \
+SRCS_MUST = exexe6.c \
 	    ./libft/ft_strnstr.c \
 	    ./libft/ft_strjoin.c \
 	    ./libft/ft_strlen.c \
