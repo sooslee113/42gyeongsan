@@ -6,18 +6,19 @@
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 01:00:32 by sooslee           #+#    #+#             */
-/*   Updated: 2024/06/18 11:23:58 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/06/22 20:45:48 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*result;
 	int		total_len;
 	int		i;
 	int		j;
+
 	total_len = ft_strlen(s1) + ft_strlen(s2);
 	result = malloc(total_len * sizeof(char) + 1);
 	i = 0;

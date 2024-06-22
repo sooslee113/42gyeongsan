@@ -6,11 +6,12 @@
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 01:33:00 by sooslee           #+#    #+#             */
-/*   Updated: 2024/06/20 12:21:27 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/06/22 20:44:19 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 char	**ft_free(char **str)
 {
 	int	i;
@@ -102,8 +103,6 @@ char	**ft_split(char	const *s, char c)
 }
 
 // #include <stdio.h>
-
-
 // int 	main(int argc, char **argv)
 // {
 // 	char ** test;

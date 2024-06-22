@@ -6,12 +6,12 @@
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:08:01 by sooslee           #+#    #+#             */
-/*   Updated: 2024/06/22 04:00:03 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/06/22 17:02:07 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
+#include <stdio.h>
 /*
 안되는 점
 1. ./pipex infile "ls" "sleep 3" outfile.
@@ -110,10 +110,11 @@ void    childexecve(int *fd, char *file,char *command, char **envp)
     int i;
     i = 0;
 
-    outfile = open(file, O_CREAT| O_WRONLY | O_TRUNC, 0666);
+    outfile = open(file, O_CREAT| O_WRONLY | O_TRUNC, 0644);
     if (outfile == -1)
     {
         perror("file open fail");
+        exit (-1);
     }
     
     if (command == NULL)
@@ -121,7 +122,7 @@ void    childexecve(int *fd, char *file,char *command, char **envp)
         printf("hello world");
         exit(-1);
     }
-    close(fd[ft_write]);
+    close(fd[1]);
     dup2(fd[0], 0);
     dup2(outfile, 1);
     close(outfile);
@@ -163,18 +164,17 @@ void    parentexecve(int *fd, char *file, char *command, char **envp)
     if (infile == -1)
     {
         perror("file open failed");
+        exit(-1);
+        
     }
     if (command == NULL)
     {
         printf("hello world");
         exit(-1);
     }
-    close(fd[ft_read]);
+    close(fd[0]);
     dup2(fd[1], 1);
-    dup2(infile, 0); // 파일디스크립터는 파일의 번호라는걸 항상 망각하자. 표준 출력, 표준 출력, 표준 에러도 파일이다.(사실 리눅스에서는 모든 것이 파일이다)
-    //포인터 fd를 써서 파이프 라인을 하나 만들어 줬다. fd[0]이라는 파일에 표준입력을 가르키게 해서 부모에서 입력한 데이터 혹은 프로세스를 자식 프로세스에게 연결한다.
-    //나는 인파일에 값을 읽어와서 아웃파일에 값을 넣어줘야 한다. 파일을 오픈하면 파일디스크립터가 주어진다. 나는 argv[4]에 인자 값을 줘서 파일을 만들어줬다.
-    //argv[4]에 인자 값을 줘서 파일의 파일 디스트립터는 infile이다. 이 infile이 0(표준 입력)을 가르키게 해서 infile안에 값이 들어오도록 한다. 자식 프로세스도 마찬가지
+    dup2(infile, 0); 
     close(infile);
     cmd_split = ft_split(command, ' ');
     i = 0;
@@ -193,7 +193,6 @@ void    parentexecve(int *fd, char *file, char *command, char **envp)
     }
     path = finding_path(cmd_split, envp);
     printf("+++경로 : %s ++++++\n", path);
-    wait(NULL);
     if (execve(path, cmd_split, NULL) == -1)
     {
         free_double(cmd_split);
@@ -205,7 +204,6 @@ int main(int argc, char **argv, char **envp)
 {
     int fd[2];
     int pid;
-    int pid2;
     //int status;
 
     if (pipe(fd) < 0)
@@ -221,26 +219,16 @@ int main(int argc, char **argv, char **envp)
     }
     if (argc == 5)
     {
-        if(pid > 0) // 부모
-        {       
-            wait(NULL);
-        }
-        else if (pid == 0)
+        if (pid == 0)
         {
-            pid2 = fork();
-            if (pid2 == -1)
-            {
-                perror("error found");
-            }
-            if (pid2 > 0) // 자식
-            {
-                waitpid(pid2 ,NULL, 0);
-                parentexecve(fd, argv[1], argv[2], envp);
-            }
-            else // 손자    
-            {
-                childexecve(fd, argv[4], argv[3], envp);
-            }         
+            //close(fd[1]);
+            parentexecve(fd, argv[1], argv[2], envp);
+        }
+        else // 부모
+        {   
+            //close(fd[0]);
+            childexecve(fd, argv[4], argv[3], envp); 
+            waitpid(pid, NULL, 0);
         }
     }
     return 0;
@@ -261,12 +249,18 @@ int main(int argc, char **argv, char **envp)
 // 부모 프로세스에서 써야한다. 앞서 말 했듯 부모 프로세스보다 자식 프로세스가 먼저 죽어야 한다. 그래서 wait 함수를써서 자식 프로세스가 남긴 정보를 가져와야 한다.
 // 
 // 7. 파이프의 fd를 정확하게 닫지 않으면 어떻게 되는가?
-// 8. waitpid의 옵션을 어떻게 했을 때 wait함수와 같아 지는지 
+// 8. waitpid의 옵션을 어떻게 했을 때 wait함수와 같아 지는지 : 0을 넣으면 같아 집니다. 
 // 9. waitpid 각 인자들이 의미하는것 
 //  pid_t waitpid(pid_t pid, int * status, int option)
-// 첫번째 인자 : 자식 프로세스의 pid, -1이 들어오면 부모ㅠ프로세스의 여러 자식 프로세스들 중 어느
-//한가지라도 종료되기를 기다리게 설정해준다.
+// 첫번째 인자 : 자식 프로세스의 pid, -1이 들어오면 부모프로세스의 여러 자식 프로세스들 중 어느
+//한가지라도 종료되기를 기다리게 설정해준다. 두번째 인자는 자식 프로세스의 상태를 회수 해오기 위한 변수다.
+//옵션은 말그대로 옵션. 0을 넣으면 wait와 같아지고 WNHONG 옵션은 자식 종료 여부와 관계없이 돌아간다.
 // 두번째 인자는 자식 프로세스가 종료될 떄의 상태 정보가 저장된다. 
 // 세번째 인수는 옵션이다. 
 // 10. fork를 한후 부모, 자식 프로세스의 pid
+// 서로다르다. 
 //
+// 파일디스크립터는 파일의 번호라는걸 항상 망각하자. 표준 출력, 표준 출력, 표준 에러도 파일이다.(사실 리눅스에서는 모든 것이 파일이다)
+    //포인터 fd를 써서 파이프 라인을 하나 만들어 줬다. fd[0]이라는 파일에 표준입력을 가르키게 해서 부모에서 입력한 데이터 혹은 프로세스를 자식 프로세스에게 연결한다.
+    //나는 인파일에 값을 읽어와서 아웃파일에 값을 넣어줘야 한다. 파일을 오픈하면 파일디스크립터가 주어진다. 나는 argv[4]에 인자 값을 줘서 파일을 만들어줬다.
+    //argv[4]에 인자 값을 줘서 파일의 파일 디스트립터는 infile이다. 이 infile이 0(표준 입력)을 가르키게 해서 infile안에 값이 들어오도록 한다. 자식 프로세스도 마찬가지
