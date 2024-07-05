@@ -6,13 +6,11 @@
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:23:03 by sooslee           #+#    #+#             */
-/*   Updated: 2024/07/02 16:23:33 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/07/05 19:49:36 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 // ---------------------------- 여기부터 swap ----------------------------- //
 void    swap_a(t_stack *a)
@@ -102,6 +100,7 @@ void    push_a(t_stack *b, t_stack *a)
 
 // ---------------------------- 여기까지 push ----------------------------- //
 
+// ---------------------------- 여기부터 rotate ----------------------------- //
 void    rotate_a(t_stack *a)
 {
     if (a -> head -> next == NULL || a == NULL)
@@ -119,6 +118,76 @@ void    rotate_a(t_stack *a)
     return ;
 }
 
+void    rotate_b(t_stack *b)
+{
+    if (b -> head -> next == NULL || b == NULL)
+        return ;
+    t_node *temp_head;
+    t_node *temp_tail;
+    temp_tail = b -> tail;
+    temp_head = b -> head;
+    b -> tail = temp_head;
+    b -> head = b -> head -> next;
+    b -> head -> previous = NULL;
+    b ->  tail -> next = NULL;
+    b -> tail -> previous = temp_tail;
+    temp_tail -> next = b -> tail;
+    return ;
+}
+
+void    rr(t_stack *a, t_stack *b)
+{
+    rotate_a(a);
+    rotate_b(b);
+}
+
+// ---------------------------- 여기까지 rotate ----------------------------- //
+
+// -----------------------------여기부터  rrotate --------------------------//
+
+
+void    reverse_rotate_a(t_stack *a)
+{
+    if (a -> head -> next == NULL || a == NULL)
+    return ;
+    t_node *temp_head;
+    t_node *temp_tail;
+    temp_head = a -> head;
+    temp_tail = a -> tail;
+    a -> tail = a -> tail -> previous;
+    a -> tail -> next = NULL; 
+    a -> head = temp_tail;
+    a -> head -> previous = NULL;
+    a -> head -> next = temp_head;
+    temp_head -> previous = temp_tail;
+    return ;
+}
+
+void    reverse_rotate_b(t_stack *b)
+{
+    if (b -> head -> next == NULL || b == NULL)
+    return ;
+    t_node *temp_head;
+    t_node *temp_tail;
+    temp_head = b -> head;
+    temp_tail = b -> tail;
+    b -> tail = b -> tail -> previous;
+    b -> tail -> next = NULL; 
+    b -> head = temp_tail;
+    b -> head -> previous = NULL;
+    b -> head -> next = temp_head;
+    temp_head -> previous = temp_tail;
+    return ;
+}
+
+void    rrr(t_stack *a, t_stack *b)
+{
+    reverse_rotate_a(a);
+    reverse_rotate_a(b);
+}
+
+// ---------------------------- 여기까지 rrotate ----------------------------- //
+
 void    insert_node(t_stack *a, int data) // 노드 삽입
 {
     t_node *new_node;
@@ -133,19 +202,21 @@ void    insert_node(t_stack *a, int data) // 노드 삽입
         a -> size ++;
         return ;
     }
-    new_node -> next = a -> head;
-    a -> head -> previous = new_node;
-    a -> head = new_node;
+    new_node -> previous = a -> head;
+    a -> tail -> next = new_node;
+    a -> tail = new_node;
     a -> size ++;
 }
 
-void    creat_stack(t_stack *a)
-{
-    a = (t_stack *)malloc(sizeof(t_stack));
-    a -> head = NULL;
-    a -> size = 0;
-    a -> tail = NULL;
-}
+// void    create_stack2(t_stack **a)
+// {
+//     (*a) = (t_stack *)malloc(sizeof(t_stack));
+//     printf("함수에 들어 온 a 주소 :%p\n", *a);
+//     (*a) -> head = NULL;
+//     (*a) -> size = 0;
+//     (*a) -> tail = NULL;
+// }
+
 t_stack     *create_stack() //스택 만들기;
 {
     t_stack *new_stack;
@@ -173,23 +244,27 @@ void    print_stack(t_stack *stack) // 출력
 
 }
 
-int main()
-{
-    t_stack *a;
-    t_stack *b;
+// int main()
+// {
+//     t_stack *a;
+//     t_stack *b;
 
-    a = create_stack();
-    insert_node(a, 1);
-    insert_node(a, 2);
-    insert_node(a, 3);
-    insert_node(a, 4);
-    insert_node(a, 5);
-    print_stack(a);
-    printf(" a\n");
-    rotate_a(a);
-    print_stack(a);
-    printf(" a\n");
-    free(a);
-    //free(b);
-    return (0);
-}
+//     a =create_stack();
+//     b =create_stack();
+//     insert_node(a, 1);
+//     insert_node(a, 2);
+//     insert_node(a, 3);
+//     insert_node(a, 4);
+//     insert_node(a, 5);
+//     print_stack(a);
+//     printf("그냥 출력 a\n");
+//     push_b(a, b);
+//     push_b(a, b);
+//     print_stack(a);
+//     printf("rrotate a\n");
+//     print_stack(b);
+//     printf("b\n");
+//     free(a);
+//     free(b);
+//     return (0);
+// }
