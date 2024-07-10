@@ -9,6 +9,7 @@ RM= rm -f
 SRCS_MUST = 	push_swap.c \
 		operate.c \
 		ft_atoi.c \
+		ft_split.c \
 		./ft_printf/ft_printf.c \
 	    	./ft_printf/ft_putptr.c \
 	    	./ft_printf/ft_puthex.c \
@@ -16,7 +17,7 @@ SRCS_MUST = 	push_swap.c \
 	    	./ft_printf/ft_putnbr.c \
 	    	./ft_printf/ft_putunsignn.c \
 	    	./ft_printf/ft_putchar.c \
-	    	./ft_printf/ft_putstr.c
+	    	./ft_printf/ft_putstr.c \
 
 SRCS = $(SRCS_MUST)
 OBJS = $(SRCS:.c=.o)

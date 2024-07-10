@@ -6,7 +6,7 @@
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:23:03 by sooslee           #+#    #+#             */
-/*   Updated: 2024/07/05 19:49:36 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/07/09 14:18:06 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void    swap_a(t_stack *a)
     temp -> previous = a -> head -> previous;
     a -> head -> next = temp;
     a -> head -> previous = NULL;
+    printf("sa\n");
 }
 
 void    swap_b(t_stack *b)
@@ -43,6 +44,7 @@ void    ss(t_stack *a, t_stack *b)
 {
     swap_a(a);
     swap_b(b);
+    printf("ss\n");
 }
 // ---------------------------- 여기까지가 swap ----------------------------- //
 
@@ -55,6 +57,7 @@ void    push_b(t_stack *a, t_stack *b)
     t_node *temp;
     temp = a -> head; // 왜 탬프를 둬야 할까?
     a -> head = a -> head -> next;
+    temp -> previous = NULL;
     if (b -> head == NULL) //b(push 할 장소)
     {
         b -> head = temp;
@@ -64,12 +67,17 @@ void    push_b(t_stack *a, t_stack *b)
         temp -> next = NULL;
         a -> size --;
         b -> size ++;
-        return ;
+        printf("pb\n");
     }
-    a -> head -> previous = NULL;
-    b -> head -> previous = temp;
-    temp -> next = b -> head;
-    b -> head = temp;
+    else
+    {
+        b -> head -> previous = temp;
+        temp -> next = b -> head;
+        b -> head = b -> head -> previous;
+        a -> size --;
+        b -> size ++;
+        printf("pb\n");
+    }
 }
 
 void    push_a(t_stack *b, t_stack *a)
@@ -79,7 +87,8 @@ void    push_a(t_stack *b, t_stack *a)
     t_node *temp;
     temp = b -> head; // 왜 탬프를 둬야 할까?
     b -> head = b -> head -> next;
-    if (a -> head == NULL) //b(push 할 장소)
+    temp -> previous = NULL;
+    if (a -> head == NULL) //a(push 할 장소)
     {
         a -> head = temp;
         a -> tail = temp;
@@ -89,13 +98,17 @@ void    push_a(t_stack *b, t_stack *a)
         b -> size --;
         a -> size ++;
         return ;
+        printf("pa\n");
     }
-    b -> head -> previous = NULL;
-    a -> head -> previous = temp;
-    temp -> next = a -> head;
-    a -> head = temp;
-    a -> size ++;
-    b -> size --;
+    else
+    {
+        a -> head -> previous = temp;
+        temp -> next = a -> head;
+        a -> head = temp;
+        b -> size --;
+        a -> size ++;
+        printf("pa\n");
+    }
 }
 
 // ---------------------------- 여기까지 push ----------------------------- //
@@ -103,7 +116,7 @@ void    push_a(t_stack *b, t_stack *a)
 // ---------------------------- 여기부터 rotate ----------------------------- //
 void    rotate_a(t_stack *a)
 {
-    if (a -> head -> next == NULL || a == NULL)
+    if (a -> size == 1 || a == NULL)
         return ;
     t_node *temp_head;
     t_node *temp_tail;
@@ -112,10 +125,11 @@ void    rotate_a(t_stack *a)
     a -> tail = temp_head;
     a -> head = a -> head -> next;
     a -> head -> previous = NULL;
-    a ->  tail -> next = NULL;
+    a -> tail -> next = NULL;
     a -> tail -> previous = temp_tail;
     temp_tail -> next = a -> tail;
-    return ;
+    printf("ra\n");
+    
 }
 
 void    rotate_b(t_stack *b)
@@ -132,13 +146,14 @@ void    rotate_b(t_stack *b)
     b ->  tail -> next = NULL;
     b -> tail -> previous = temp_tail;
     temp_tail -> next = b -> tail;
-    return ;
+    printf("rb\n");
 }
 
 void    rr(t_stack *a, t_stack *b)
 {
     rotate_a(a);
     rotate_b(b);
+    printf("rr\n");
 }
 
 // ---------------------------- 여기까지 rotate ----------------------------- //
@@ -148,8 +163,8 @@ void    rr(t_stack *a, t_stack *b)
 
 void    reverse_rotate_a(t_stack *a)
 {
-    if (a -> head -> next == NULL || a == NULL)
-    return ;
+    if (a -> size == 1 || a == NULL)
+        return ;
     t_node *temp_head;
     t_node *temp_tail;
     temp_head = a -> head;
@@ -160,12 +175,13 @@ void    reverse_rotate_a(t_stack *a)
     a -> head -> previous = NULL;
     a -> head -> next = temp_head;
     temp_head -> previous = temp_tail;
+    printf("rra\n");
     return ;
 }
 
 void    reverse_rotate_b(t_stack *b)
 {
-    if (b -> head -> next == NULL || b == NULL)
+    if (b -> size == 1 || b == NULL)
     return ;
     t_node *temp_head;
     t_node *temp_tail;
@@ -177,6 +193,7 @@ void    reverse_rotate_b(t_stack *b)
     b -> head -> previous = NULL;
     b -> head -> next = temp_head;
     temp_head -> previous = temp_tail;
+    printf("rrb\n");
     return ;
 }
 
@@ -188,12 +205,15 @@ void    rrr(t_stack *a, t_stack *b)
 
 // ---------------------------- 여기까지 rrotate ----------------------------- //
 
+// 순위 매기기
+
 void    insert_node(t_stack *a, int data) // 노드 삽입
 {
     t_node *new_node;
     new_node = (t_node *)malloc(sizeof(t_node));
     new_node -> previous = NULL;
     new_node -> data = data;
+    new_node -> rank = 0;
     new_node -> next = NULL;
     if (a->head == NULL)
     {
@@ -206,6 +226,36 @@ void    insert_node(t_stack *a, int data) // 노드 삽입
     a -> tail -> next = new_node;
     a -> tail = new_node;
     a -> size ++;
+}
+
+void    making_rank(t_stack *a)
+{
+    t_node *current;
+    t_node *next_node = a -> head;
+
+    current = a -> head;
+    while(current != NULL)
+    {
+        next_node = a -> head;
+        while(next_node != NULL)
+        {
+            if (current -> data > next_node -> data)
+                (current -> rank)++;
+            next_node = next_node -> next;
+        }
+        current = current -> next;
+    }
+}
+
+void    print_rank(t_stack *a)
+{
+    t_node *current = a -> head;
+    while(current != NULL)
+    {
+        printf("%d \n", current -> rank);
+        current = current -> next;
+    }
+    printf("-----\n");    
 }
 
 // void    create_stack2(t_stack **a)
@@ -244,6 +294,19 @@ void    print_stack(t_stack *stack) // 출력
 
 }
 
+
+// void    lets_free(t_stack *a)
+// {
+//     t_node *current = a -> head;
+
+//     if(current != NULL)
+//     {
+//         a -> head = current -> next;
+//         free(current);
+//         lets_free(a);
+//     }
+// }
+
 // int main()
 // {
 //     t_stack *a;
@@ -251,20 +314,41 @@ void    print_stack(t_stack *stack) // 출력
 
 //     a =create_stack();
 //     b =create_stack();
+//     insert_node(a, 4);
+//     insert_node(a, 0);
+//     insert_node(a, 6);
 //     insert_node(a, 1);
+//     insert_node(a, 5);
 //     insert_node(a, 2);
 //     insert_node(a, 3);
-//     insert_node(a, 4);
-//     insert_node(a, 5);
 //     print_stack(a);
-//     printf("그냥 출력 a\n");
-//     push_b(a, b);
-//     push_b(a, b);
-//     print_stack(a);
-//     printf("rrotate a\n");
+//     printf("a\n");
 //     print_stack(b);
 //     printf("b\n");
-//     free(a);
-//     free(b);
+//     printf("그냥 출력 \n\n");
+//     //-------------------------------------------- //
+//     push_b(a, b);
+//     push_b(a, b);
+//     push_b(a, b);
+//     push_b(a, b);
+//     print_stack(a);
+//     printf("a\n");
+//     print_stack(b);
+//     printf("b\n");
+//     printf("push_b 후 출력 \n\n");
+//     //-------------------------------------------- //
+//     push_a(b, a);
+//     push_a(b, a);
+//     push_a(b, a);
+//     print_stack(a);
+//     printf("a\n");
+//     print_stack(b);
+//     printf("b\n");
+//     printf("push_a후 출력 \n\n");
+//     //-------------------------------------------- //
+//         lets_free(a);
+//         lets_free(b);
+//         free(a);
+//         free(b);
 //     return (0);
 // }

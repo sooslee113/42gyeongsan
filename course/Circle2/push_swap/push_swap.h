@@ -6,7 +6,7 @@
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:27:11 by sooslee           #+#    #+#             */
-/*   Updated: 2024/07/05 19:52:38 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/07/07 17:15:00 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct o_node
 {
     struct o_node *previous;
     int data;
+    int rank;
     struct o_node *next;
 } t_node;
 
@@ -50,12 +51,18 @@ t_stack     *create_stack();
 void    insert_node(t_stack *a, int data);
 void    print_stack(t_stack *stack);
 long long	    ft_atoi(const char *nptr);
+char	**ft_split(char	const *s, char c);
+void    making_rank(t_stack *a);
+void    print_rank(t_stack *a);
 
-
-
-
-
-
-
+void    bin_radix(t_stack **a, t_stack **b);
+int     find_max(t_stack *a);
+int    find_max_digit(int rank);
+void    double_free(char **split);
+void    show_error(t_stack *a);
+int num_check(long long num);
+int check_argv(char *str);
+void    lets_free(t_stack *a);
+int dup_check(t_stack *a,int num);
 
 #endif
