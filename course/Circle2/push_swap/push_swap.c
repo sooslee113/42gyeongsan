@@ -6,7 +6,7 @@
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 20:39:14 by sooslee           #+#    #+#             */
-/*   Updated: 2024/07/10 09:38:04 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/07/13 18:47:09 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,30 +223,60 @@ void    max(t_stack *a)
 void    size_two(t_stack *a)
 {
     if (a -> size == 2)
-        rotate_a(a);
+        swap_a(a);
 }
 
-void    size_three(t_stack *a, t_stack *b)
+void    size_three(t_stack *a)
 {
-        t_node *min_node;
-        t_node *current;
+        // t_node *min_node = NULL;
+        // t_node *current = NULL;
     
-        current = (a) -> head;
-        min_node = (a) -> head;
-        while(current != NULL)
-        {
-            if (min_node -> data > current-> data)    
-                min_node = current;
-            current = current -> next;
-        }
-        while(min_node -> previous != NULL)
-        {
-            reverse_rotate_a(a);
-        }
-        push_b(a, b);
-        if ((a) -> head -> data > (a) -> tail -> data)
-            rotate_a(a);
-        push_a(b, a);
+        // current = (a) -> head;
+        // min_node = (a) -> head;
+        // while(current != NULL)
+        // {
+        //     if (min_node -> data > current-> data)    
+        //         min_node = current;
+        //     current = current -> next;
+        // }
+        // while(min_node -> previous != NULL)
+        // {
+        //     reverse_rotate_a(a);
+        // }
+        // push_b(a, b);
+        // if ((a) -> head -> rank > (a) -> tail -> rank)
+        //     swap_a(a);
+        // push_a(b, a);
+        // while(already_sort(a) == 0)
+        // {
+            if (already_sort(a) == 1)
+                return;
+            if (a -> head -> rank < a -> head -> next -> rank && a -> tail -> rank > a -> head -> rank)
+            {
+                swap_a(a);
+                rotate_a(a);
+                return;
+            }
+            else if (a -> tail -> rank > a -> head -> rank && a -> tail -> rank > a -> head -> next -> rank)
+            {
+                swap_a(a);
+                return;
+            }
+            else if(a -> head -> rank < a -> head -> next -> rank && a -> head -> rank > a -> tail -> rank)
+            {
+                reverse_rotate_a(a);
+            }
+            else if (a -> head -> rank > a -> head -> next -> rank && a -> head -> next -> rank > a -> tail-> rank)
+            {
+                swap_a(a);
+                reverse_rotate_a(a);
+            }
+            else if (a -> head -> rank > a -> head -> next -> rank && a -> head -> rank > a -> tail -> rank)
+            {
+                rotate_a(a);
+            }
+            //reverse_rotate_a(a);
+        //}
 }
 
 void    reduce(t_stack *a, t_stack *b, t_node *min_node, t_node *current)
@@ -258,10 +288,16 @@ void    reduce(t_stack *a, t_stack *b, t_node *min_node, t_node *current)
             if (min_node -> data > current-> data)    
                 min_node = current;
             current = current -> next;
+            //printf("min_node -> data : %d\n", min_node -> data);
+            //print_rank(a);
         }
         while(min_node -> previous != NULL)
-            rotate_a(a);
+        {
+            reverse_rotate_a(a);
+            //print_rank(a);
+        }
         push_b(a, b);
+        //print_rank(a);
 }
 
 void    size_four(t_stack *a, t_stack *b)
@@ -270,9 +306,8 @@ void    size_four(t_stack *a, t_stack *b)
         t_node *current = NULL;
     
         reduce(a , b, min_node, current);
-        size_three(a, b);
+        size_three(a);
         push_a(b, a);
-        
 }
 
 void    size_five(t_stack *a, t_stack *b)
@@ -280,8 +315,10 @@ void    size_five(t_stack *a, t_stack *b)
         t_node *min_node = NULL;
         t_node *current = NULL;
 
+        reduce(a , b, min_node, current);
         reduce(a , b, min_node, current); 
-        size_four(a, b);
+        size_three(a);
+        push_a(b, a);
         push_a(b, a);
         //push_a(b, a);
 }
@@ -322,7 +359,7 @@ int main(int argc, char **argv)
         if (a -> size == 2)
             size_two(a);
         else if (a -> size == 3)
-            size_three(a, b);
+            size_three(a);
         else if (a -> size == 4)
             size_four(a, b);
         else if (a -> size == 5)
