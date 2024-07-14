@@ -18,6 +18,14 @@ SRCS_MUST = 	push_swap.c \
 	    	./ft_printf/ft_putunsignn.c \
 	    	./ft_printf/ft_putchar.c \
 	    	./ft_printf/ft_putstr.c \
+		parsing.c \
+		under_five.c \
+		radix_sort.c \
+		push.c \
+		swap.c \
+		rotate.c \
+		reverse_rotate.c \
+		let_me_free.c
 
 SRCS = $(SRCS_MUST)
 OBJS = $(SRCS:.c=.o)

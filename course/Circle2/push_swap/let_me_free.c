@@ -1,40 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   let_me_free.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/28 17:02:16 by sooslee           #+#    #+#             */
-/*   Updated: 2024/07/13 21:24:41 by sooslee          ###   ########.fr       */
+/*   Created: 2024/07/13 20:27:24 by sooslee           #+#    #+#             */
+/*   Updated: 2024/07/13 21:24:43 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-long long	ft_atoi(const char *nptr)
+void    lets_free(t_stack *a)
 {
-	long long	i;
-	long long	sign;
-	long long	result;
+    t_node *current = a->head;
 
-	i = 0;
-	sign = 1;
-	result = 0;
-	while ((nptr[i] >= 9 && nptr[i] <= 13) || (nptr[i] == ' '))
-	{
-		i ++;
-	}
-	if (nptr[i] == '+' || nptr[i] == '-')
-	{
-		if (nptr[i] == '-')
-			sign = -1;
-		i ++;
-	}
-	while ((nptr[i] >= '0' && nptr[i] <= '9') && nptr[i])
-	{
-		result = result * 10 + nptr[i] - '0';
-		i ++;
-	}
-	return (result * sign);
+    if(current != NULL)
+    {
+        a->head = current->next;
+        free(current);
+        lets_free(a);
+    }
+}
+
+void    double_free(char **split)
+{
+    int i = 0;
+    while(split[i])
+    {
+        free(split[i]);
+        i ++;
+    }
+    free (split);
 }
