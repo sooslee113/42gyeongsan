@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "unistd.h": "c",
+        "terminal.integrated.shell.linux": "/bin/bash"
+    }
+}
