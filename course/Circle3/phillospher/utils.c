@@ -6,7 +6,7 @@
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:46:53 by sooslee           #+#    #+#             */
-/*   Updated: 2024/09/03 15:46:53 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/09/05 20:04:39 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_atoi(const char *nptr)
 {
 	int	i;
 	int	sign;
-	int	result;
+	unsigned long long	result;
 
 	i = 0;
 	sign = 1;

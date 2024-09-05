@@ -9,6 +9,7 @@ SUBDIR = libft
 SRCS_MUST = main.c \
 	    show_error.c \
 	    utils.c \
+		init.c
 
 SRCS = $(SRCS_MUST)
 OBJS = $(SRCS:.c=.o)

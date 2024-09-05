@@ -6,7 +6,7 @@
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 12:43:10 by sooslee           #+#    #+#             */
-/*   Updated: 2024/09/04 14:49:59 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/09/05 20:32:15 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int is_argv_num(char *argv)
 	return (0);
 }
 
-void	check_argv(char **argv)
+void	check_argv(int argc, char **argv)
 {
 	if (ft_atoi(argv[1]) > 200 || ft_atoi(argv[1]) <= 0)
 		show_error("The number of phillo is wrong\n");
@@ -33,16 +33,64 @@ void	check_argv(char **argv)
 		show_error("Eatting time is wrong\n");
 	if (ft_atoi(argv[4]) <= 0 || is_argv_num(argv[4]) == 1)
 		show_error("Sleeping time is wrong\n");
-	if (ft_atoi(argv[5]) < 0 || is_argv_num(argv[5]) == 1)
-		show_error("I dont know what is the correct sentence in this error...\n");
+	if (argc == 6) 
+	{
+		if (ft_atoi(argv[5]) < 0 || is_argv_num(argv[5]) == 1)
+			show_error("The number of times to eat is wrong\n");
+	}
 }
+
+// int main(int argc, char **argv)
+// {
+// 	t_program *program;
+	
+// 	program = malloc(sizeof(t_program)); // 메모리 동적 할당
+// 	if (program == NULL) 
+//     	return -1;
+
+// 	if (argc != 5 && argc != 6)
+// 		show_error("argc is wrong");
+// 	check_argv(argc, argv);
+// 	init_argv(program, argv);
+// 	init_phillo (program);
+	
+// 	printf("hello world");
+	
+// 	return (0);
+// }
 
 int main(int argc, char **argv)
 {
+	t_program *program;
+	t_philo *philo;
+
+	program = malloc(sizeof(t_program)); // 메모리 동적 할당
+	if (program == NULL) 
+    	return -1;
+
+	// philo 배열 동적 할당
+	philo = malloc(sizeof(t_philo) * ft_atoi(argv[1]));
+	if (philo == NULL) 
+		return -1;
+
+	// forks 배열 동적 할당
+	program->forks = malloc(sizeof(pthread_mutex_t) * ft_atoi(argv[1]));
+	if (program->forks == NULL)
+		return -1;
+
 	if (argc != 5 && argc != 6)
 		show_error("argc is wrong");
-	check_argv(argv);
+
+	check_argv(argc, argv);
+	init_argv(program, argv, philo);
+	init_phillo (program);
+	
 	printf("hello world");
 	
+	// 메모리 해제는 프로그램 종료 시 추가
+	free(philo);
+	free(program->forks);
+	free(program);
+
 	return (0);
 }
