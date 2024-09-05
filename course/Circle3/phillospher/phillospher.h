@@ -5,6 +5,7 @@
 # include <sys/time.h>
 # include <pthread.h>
 # include <string.h>
+# include <stdlib.h>
 
 void	show_error(char *errorno);
 int ft_atoi(const char *nptr);

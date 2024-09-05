@@ -23,7 +23,7 @@ int is_argv_num(char *argv)
 	return (0);
 }
 
-int	check_argv(char **argv)
+void	check_argv(char **argv)
 {
 	if (ft_atoi(argv[1]) > 200 || ft_atoi(argv[1]) <= 0)
 		show_error("The number of phillo is wrong\n");
