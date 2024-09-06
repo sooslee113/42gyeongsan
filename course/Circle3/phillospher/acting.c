@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   show_error.c                                       :+:      :+:    :+:   */
+/*   acting.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/03 13:44:26 by sooslee           #+#    #+#             */
-/*   Updated: 2024/09/06 11:24:43 by sooslee          ###   ########.fr       */
+/*   Created: 2024/09/06 13:27:26 by sooslee           #+#    #+#             */
+/*   Updated: 2024/09/06 19:22:11 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "phillospher.h"
 
-void	show_error(char *errorno)
+void    lets_eat(t_program *program)
 {
-	printf("%s", errorno);
-	exit(1);
+    
 }
