@@ -35,7 +35,7 @@ void	show_error(char *errorno);
 int ft_atoi(const char *nptr);
 void	check_argv(int argc, char **argv);
 int is_argv_num(char *argv);
-void    init_argv(t_program *program, char **argv)
+void    init_argv(t_program **program, char **argv);
 void	init_phillo(t_philo **philo, t_program *program);
 
 #endif
