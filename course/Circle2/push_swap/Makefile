@@ -36,14 +36,15 @@ $(NAME) : $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
 %.o : %.c
-	@make re -C ./ft_printf
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
 clean :
+	@make clean -C ./ft_printf
 	$(RM) $(OBJS)
 
 fclean : clean
+	$(RM) ./ft_printf/libftprintf.a
 	$(RM) $(NAME)
 
 re : fclean all

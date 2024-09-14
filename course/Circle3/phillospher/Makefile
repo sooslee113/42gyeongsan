@@ -2,7 +2,7 @@ NAME = philo
 
 CC = cc
 RM = rm -f
-CFLAGS = -g -fsanitize=address -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 
 SUBDIR = libft
 

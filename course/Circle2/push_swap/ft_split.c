@@ -6,7 +6,7 @@
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 01:33:00 by sooslee           #+#    #+#             */
-/*   Updated: 2024/07/13 21:24:42 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/07/16 23:53:39 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	**ft_free(char **str)
 	return (NULL);
 }
 
-char	wordcont(char const *s, char c)
+int	wordcont(char const *s, char c)
 {
 	int	i;
 	int	cnt;

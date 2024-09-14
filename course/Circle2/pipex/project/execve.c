@@ -6,7 +6,7 @@
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 17:33:35 by sooslee           #+#    #+#             */
-/*   Updated: 2024/06/22 21:30:10 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/06/23 20:40:34 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	childexecve(int *fd, char *file, char *command, char **envp)
 	close(fd[1]);
 	dup2(fd[0], 0);
 	dup2(outfile, 1);
+	close(fd[0]);
 	close(outfile);
 	cmd_split = ft_split(command, ' ');
 	if (cmd_split[0] == NULL)
@@ -97,7 +98,7 @@ void	childexecve(int *fd, char *file, char *command, char **envp)
 	}
 }
 
-void	parentexecve(int *fd, char *file, char *command, char **envp)
+void	child2execve(int *fd, char *file, char *command, char **envp)
 {
 	char		**cmd_split;
 	char		*path;
@@ -109,8 +110,9 @@ void	parentexecve(int *fd, char *file, char *command, char **envp)
 	if (command == NULL)
 		null_error(command);
 	close(fd[0]);
-	dup2(fd[1], 1);
 	dup2(infile, 0);
+	dup2(fd[1], 1);
+	close(fd[1]);
 	close(infile);
 	cmd_split = ft_split(command, ' ');
 	if (cmd_split[0] == NULL)

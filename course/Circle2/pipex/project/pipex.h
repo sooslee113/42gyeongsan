@@ -6,7 +6,7 @@
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 00:32:07 by sooslee           #+#    #+#             */
-/*   Updated: 2024/06/22 21:35:12 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/06/23 20:40:22 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define FT_READ 0
 # define FT_WRITE 1
 
-void	parentexecve(int *fd, char *file, char *command, char **envp);
+void	child2execve(int *fd, char *file, char *command, char **envp);
 void	childexecve(int *fd, char *file, char *command, char **envp);
 void	pipex_error(int *file);
 void	file_error(char *file);

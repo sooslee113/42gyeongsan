@@ -6,7 +6,7 @@
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 12:43:10 by sooslee           #+#    #+#             */
-/*   Updated: 2024/09/06 19:22:10 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/09/11 14:55:59 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,17 @@
 int mails = 0;
 pthread_mutex_t mutex;
 
-// void* routine() 
-// {
-// 	pthread_mutex_lock(&mutex);
-//     for (int i = 0; i < 5; i++) 
-// 	{    
-//         mails++;
-//     }
-// 	pthread_mutex_unlock(&mutex);
-// 	return NULL;
-// }
+void* routine() 
+{
+	pthread_mutex_lock(&mutex);
+    for (int i = 0; i < 5; i++) 
+	{    
+        mails++;
+    }
+	pthread_mutex_unlock(&mutex);
+	return NULL;
+}
+
 
 int is_argv_num(char *argv)
 {
@@ -53,41 +54,44 @@ void	check_argv(int argc, char **argv)
 	}
 }
 
-
 int main(int argc, char **argv)
 {
-	int i;
+	//int i;
 	t_program *program;
+	t_philo *philo;
 	
 	program = NULL;
-	i = 0;
+	philo = NULL;
+	//i = 0;
 	if (argc != 5 && argc != 6)
 		show_error("argc is wrong");
 
 	check_argv(argc, argv);
 	init_argv(&program, argv);
-	init_phillo (program);
+	if (!program)
+		show_error("Failed to initialize program\n");
+	init_phillo (&philo, program);
 	printf("number_of_philo : %d\n", program -> number_of_philo);
-	//pthread_mutex_init(&mutex, NULL);
-	while(i < program -> number_of_philo)
-	{
-		//pthread_create(&(program->philo[i].thread), NULL, &routine, (void *)program);
-		printf("id : %d has started\n", program->philo[i].id);
-		printf("i의 값 : %d\n", i);
-		i ++;
-	}
+	pthread_mutex_init(&mutex, NULL);
+	// while(i < program -> number_of_philo)
+	// {
+	// 	pthread_create(&(program->philo[i].thread), NULL, &routine, (void *)program);
+	// 	printf("id : %d has started\n", program->philo[i].id);
+	// 	printf("i의 값 : %d\n", i);
+	// 	i ++;
+	// }
 	printf("phthread_create 빠져 나옴\n");
-	i = 0;
-	while(i < program -> number_of_philo)
-	{
-		pthread_join(program->philo[i].thread, NULL);
-		printf("id : %d has finished\n", program->philo[i].id);
-		printf("i의 값 : %d\n", i);
-		i ++;
-	}
-	//pthread_mutex_destroy(&mutex);
-	free(program->forks);
-	free(program->philo);
+	//i = 0;
+	// while(i < program -> number_of_philo)
+	// {
+	// 	pthread_join(program->philo[i].thread, NULL);
+	// 	printf("id : %d has finished\n", program->philo[i].id);
+	// 	printf("i의 값 : %d\n", i);
+	// 	i ++;
+	// }
+	pthread_mutex_destroy(&mutex);
+	//free(program->forks);
+	free(philo);
 	free(program);
 	printf("mails 의 값 : %d",mails);
 	return (0);

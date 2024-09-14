@@ -6,7 +6,7 @@
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 20:08:01 by sooslee           #+#    #+#             */
-/*   Updated: 2024/06/23 01:57:05 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/06/23 20:40:09 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,20 @@
 2. infile 읽기 권한 없앴을 때.
 3. 
 */
+
+void	making_pipe(int *fd, int *pid, int *pid2)
+{
+	close(fd[0]);
+	close(fd[1]);
+	waitpid(*pid, NULL, 0);
+	waitpid(*pid2, NULL, 0);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	int	fd[2];
 	int	pid;
+	int	pid2;
 
 	if (pipe(fd) < 0)
 		pipex_error(fd);
@@ -30,11 +40,16 @@ int	main(int argc, char **argv, char **envp)
 	if (argc == 5)
 	{
 		if (pid == 0)
-			parentexecve(fd, argv[1], argv[2], envp);
+			child2execve(fd, argv[1], argv[2], envp);
 		else
 		{
-			childexecve(fd, argv[4], argv[3], envp);
-			waitpid(pid, NULL, 0);
+			pid2 = fork();
+			if (pid2 == -1)
+				fork_error(pid2);
+			else if (pid2 == 0)
+				childexecve(fd, argv[4], argv[3], envp);
+			else
+				making_pipe(fd, &pid, &pid2);
 		}
 	}
 	return (0);
@@ -42,13 +57,13 @@ int	main(int argc, char **argv, char **envp)
 // 1. 부모 프로세스의 역할(의무) : 자식 프로세스가 먼저 종료되고 이에 대한 후속처리는 부모 프로세스가 담당한다.
 // 프로세스에서는 자식이 먼저 죽는다. 자식 프로세스가 죽으면 부모 프로세스는 자식 프로세스가 남긴 정보 (PID, 종료 상태)를 남긴다.
 // 부모 프로세스는 wait 함수를 호출하여 이 상태를 회수하면 남은 정보가 제거되어 자식 프로세스는 완전히 소멸된다. 
-// 2. 좀비프로세스가 생기는 이유 . 
+// 2. 좀비프로세스가 생기는 이유. 
 //부모 프로세스가 wait를 호출하지 않아 최소한의 정보가 메모리에 남아 있는 경우를 좀비 프로세스라고 한다. 
 // 3. 좀비 프로세스가 쌓이면 어떻게 되는가 
 //    좀비 프로세스가 쌓이게 되면 리소스 유출을 야기 할 수 있다. 
 // 4. 좀비 프로세스와 고아 프로세스의 차이. 고아 프로세스는 부모 프로세스가 먼저 종료되어서 부모 프로세스가 없는 경우를 말한다.
 // 
-// 5. mandatory에서 fork를 몇번 해야하는가? > 그에 대한 이유 
+// 5. mandatory에서 fork를 몇번 해야하는가? > 그에 대한 이유 2번 합니다 병렬로 처리해줘야 하기 때문입니다.
 // 2번 해야한다. 왜냐하면 execve 함수를 두번 써서 자식과 자식으로 관리 해줘야 한다. 
 // 포크를 하면 부모 프로세스 정보를 자식 프로세스가 들고 온다. 
 //그리고 execve를 하면 새로운 프로세스로 재 탄생하게된다.

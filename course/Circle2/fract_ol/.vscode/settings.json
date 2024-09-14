@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "fract_ol.h": "c",
+        "x.h": "c",
+        "stdio.h": "c",
+        "keysymdef.h": "c"
+    }
+}
