@@ -7,13 +7,13 @@ AR = ar
 ARFLAGS = crs
 
 SRCS_MUST = ft_printf.c	\
-	    ft_printptr.c \
+	    ft_putptr.c \
 	    ft_puthex2.c \
 	    ft_puthex.c \
 	    ft_putnbr.c \
-	    ft_putstr2.c \
-	    ft_printfc.c \
+	    ft_putstr.c \
 	    ft_putunsignn.c\
+	    ft_putchar.c
 
 OBJS = $(SRCS_MUST:.c=.o)
 

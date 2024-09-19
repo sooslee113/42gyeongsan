@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putunsignn.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sooslee <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 14:41:20 by sooslee           #+#    #+#             */
-/*   Updated: 2024/03/24 16:12:46 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/06/12 03:15:04 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "ft_printf.h"
 
 int	ft_putunsignn(unsigned int n)
@@ -19,7 +20,7 @@ int	ft_putunsignn(unsigned int n)
 	if (n < 10)
 	{
 		n += '0';
-		ft_printfc(n);
+		ft_putchar(n);
 	}
 	else if (n >= 10 && n <= (unsigned int)ULONG_MAX)
 	{

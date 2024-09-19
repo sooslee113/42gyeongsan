@@ -6,7 +6,7 @@
 /*   By: sooslee <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:16:41 by sooslee           #+#    #+#             */
-/*   Updated: 2024/03/24 16:12:22 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/06/12 02:19:12 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_printf.h"
@@ -25,12 +25,12 @@ int	ft_putnbr(int n)
 	else if (n < 0)
 	{
 		n *= -1;
-		count += ft_printfc('-');
+		count += ft_putchar('-');
 	}
 	if (0 <= n && n < 10)
 	{
 		n += '0';
-		ft_printfc(n);
+		ft_putchar(n);
 	}
 	else if (n >= 10 && n <= 2147483647)
 	{

@@ -6,7 +6,7 @@
 /*   By: sooslee <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:15:52 by sooslee           #+#    #+#             */
-/*   Updated: 2024/03/24 21:36:46 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/06/12 02:17:50 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_printf.h"
@@ -20,7 +20,7 @@ int	ft_puthex(unsigned int n)
 	sixteen = "0123456789abcdef";
 	if (n <= 15)
 	{
-		ft_printfc(sixteen[n]);
+		ft_putchar(sixteen[n]);
 	}
 	else
 	{

@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printptr.c                                      :+:      :+:    :+:   */
+/*   ft_putptr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sooslee <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:32:39 by sooslee           #+#    #+#             */
-/*   Updated: 2024/03/24 16:11:55 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/06/13 01:14:42 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "ft_printf.h"
 
 static int	ft_puthexptr(unsigned long long n)
@@ -20,7 +21,7 @@ static int	ft_puthexptr(unsigned long long n)
 	hex = "0123456789abcdef";
 	if (n <= 15)
 	{
-		ft_printfc(hex[n]);
+		ft_putchar(hex[n]);
 	}
 	else if (n >= 16 && n <= ULLONG_MAX)
 	{
