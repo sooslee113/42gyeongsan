@@ -6,7 +6,7 @@
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 12:43:10 by sooslee           #+#    #+#             */
-/*   Updated: 2024/09/14 18:18:28 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/09/27 15:23:48 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,22 @@ void	check_argv(int argc, char **argv)
 			show_error("The number of times to eat is wrong\n");
 	}
 }
+void	lets_free(t_program *program, t_philo *philo)
+{
+	int i;
 
+	i = 0;
+	pthread_mutex_destroy(&(program->mutex)); // mutex 해제
+	i = 0;
+	while (i < program -> number_of_philo)
+	{
+		pthread_mutex_destroy(&program->forks[i]);
+		i ++;
+	}
+	free(program->forks);
+	free(philo);
+	free(program);
+}
 int main(int argc, char **argv)
 {
 	t_program *program;
@@ -52,8 +67,7 @@ int main(int argc, char **argv)
 	check_argv(argc, argv);
 	init_argv(&program, argv);
 	init_phillo (&philo, program);
-	printf("hello world\n");
-	free(philo);
-	free(program);
+	making_thread(program, philo);
+	lets_free(program, philo);
 	return (0);
 }

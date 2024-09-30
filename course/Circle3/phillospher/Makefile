@@ -2,14 +2,16 @@ NAME = philo
 
 CC = cc
 RM = rm -f
-CFLAGS = -g -fsanitize=address -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 
 SUBDIR = libft
 
 SRCS_MUST = main.c \
 	    show_error.c \
 	    utils.c \
-		init.c
+		init.c\
+		acting.c\
+		thread.c
 
 SRCS = $(SRCS_MUST)
 OBJS = $(SRCS:.c=.o)

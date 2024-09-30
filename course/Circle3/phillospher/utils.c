@@ -6,7 +6,7 @@
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:46:53 by sooslee           #+#    #+#             */
-/*   Updated: 2024/09/06 11:24:46 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:42:11 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,14 @@ int	ft_atoi(const char *nptr)
 		i ++;
 	}
 	return (result * sign);
+}
+
+long get_time(void)
+{
+	struct timeval time;
+	long what_time;
+
+	gettimeofday(&time, NULL);
+	what_time = ((size_t)time.tv_sec * 1000) + ((size_t)time.tv_usec / 1000);
+	return (what_time);
 }
