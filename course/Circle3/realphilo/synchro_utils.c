@@ -22,7 +22,7 @@ bool    all_threads_running(t_mutex *mutex, long *threads, long philo_nbr)
     if (*threads == philo_nbr)
         ret = true;
     safe_mutex_handle(mutex, UNLOCK);
-    retunr (ret);
+    return (ret);
 }
 
 void  increase_long(t_mutex *mutex, long *value)

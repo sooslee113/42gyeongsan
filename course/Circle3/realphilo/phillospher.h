@@ -99,5 +99,6 @@ long    get_time(void);
 void	ft_usleep(long usec, t_table *table);
 void    write_status(t_philo_status status, t_philo *philo, bool debug);
 void    dinner_start(t_table *table);
+bool    all_threads_running(t_mutex *mutex, long *threads, long philo_nbr);
 
 #endif
