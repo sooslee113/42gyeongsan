@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   phillospher.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sooslee <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/28 20:08:33 by sooslee           #+#    #+#             */
+/*   Updated: 2024/10/28 20:16:11 by sooslee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILLOSPHER_H
 # define PHILLOSPHER_H
 
@@ -11,23 +23,21 @@
 # include <stdbool.h>
 # include <errno.h>
 
-#define DEBUG_MODE 1
-/*
-./philo '철학자 수', '죽는 시간', '먹는 시간'. '자는 시간', [철학자가 먹어야 하는 끼니]
-*/
-typedef pthread_mutex_t t_mutex;
-typedef struct s_table t_table;
+# define DEBUG_MODE 0
+
+typedef pthread_mutex_t	t_mutex;
+typedef struct	s_table t_table;
 
 typedef enum e_opcode
 {
-    LOCK,
-    UNLOCK,
-    INIT,
-    DESTORY,
-    CREATE,
-    JOIN,
-    DETACH,
-}   t_opcode;
+	LOCK,
+	UNLOCK,
+	INIT,
+	DESTORY,
+	CREATE,
+	JOIN,
+	DETACH,
+}	t_opcode;
 
 typedef enum e_status
 {
@@ -68,7 +78,7 @@ typedef struct s_table
     long    start_time;
     bool    end_simulation; //모니터링
     bool    all_threads_ready;
-    bool    threads_running_nbr;
+    long    threads_running_nbr;
     pthread_t monitor;
     t_mutex table_mutex;
     t_mutex write_mutex;
@@ -100,5 +110,13 @@ void	ft_usleep(long usec, t_table *table);
 void    write_status(t_philo_status status, t_philo *philo, bool debug);
 void    dinner_start(t_table *table);
 bool    all_threads_running(t_mutex *mutex, long *threads, long philo_nbr);
+void    wait_all_threads(t_table *table);
+bool    all_threads_running(t_mutex *mutex, long *threads, long philo_nbr);
+void  increase_long(t_mutex *mutex, long *value);
+void    *monitor_dinner(void *data);
+void 	clean(t_table *table);
+void    thinking(t_philo *philo, bool pre_simulation);
+//void thinking(t_philo *philo);
+void    de_synchronize_philos(t_philo *philo);
 
 #endif

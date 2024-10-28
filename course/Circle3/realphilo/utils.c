@@ -46,8 +46,25 @@ long get_time(void)
 	/* precise usleep, the real one suk
 	1) usleep the majority of time, not CPU intensive
 	2) refine last microsec with spinlock
-
  */
+
+void 	clean(t_table *table)
+{
+	t_philo *philo;
+	int i;
+
+	i = 0;
+	while(i < table->philo_nbr)
+	{
+		philo = table->philos + i;
+		safe_mutex_handle(&philo->philo_mutex, DESTORY);
+		i ++;
+	}
+	safe_mutex_handle(&table->write_mutex, DESTORY);
+	safe_mutex_handle(&table->table_mutex, DESTORY);
+	free(table->forks);
+	free(table->philos);
+}
 void	ft_usleep(long usec, t_table *table)
 {
 	long start;
@@ -61,7 +78,7 @@ void	ft_usleep(long usec, t_table *table)
 		elapsed = get_time() - start;
 		rem = usec - elapsed;
 		if (rem > 1e3)
-			usleep(rem / 2);
+			usleep(usec / 2);
 		else
 		{
 			while(get_time() - start < usec)

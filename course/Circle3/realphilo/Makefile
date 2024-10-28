@@ -2,9 +2,7 @@ NAME = philo
 
 CC = cc
 RM = rm -f
-CFLAGS = -g -Wall -Wextra -Werror
-
-SUBDIR = libft
+CFLAGS =  -Wall -Wextra -Werror	-lpthread
 
 SRCS_MUST = main.c \
 		utils.c \
@@ -12,8 +10,9 @@ SRCS_MUST = main.c \
 		init.c \
 		dinner.c \
 		getter_setter.c \
-		utils.c \
-		write.c
+		write.c \
+		synchro_utils.c \
+		monitor.c 
 
 
 SRCS = $(SRCS_MUST)
